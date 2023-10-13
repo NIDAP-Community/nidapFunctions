@@ -1,3 +1,8 @@
+#####################
+# Note that this allows you to perfrom the same operation as if cliking the apply schema for csv input
+# But please note that if the column names or values does not meet the foundry dataset schema requirement
+# This method may fail.
+
 library(httr)
 library(jsonlite)
 
