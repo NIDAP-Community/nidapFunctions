@@ -7,7 +7,6 @@
 #' @param text_size Size of the text in points.
 #' @param text_fontface Font face for text (e.g., "plain", "bold").
 #' @param text_fontfamily Font family for text.
-#' @param text_angle Angle of the text.
 #' @param fill_color Named color for the background box.
 #' @param fill_alpha Opacity for the fill background.
 #' @param border_alpha Opacity for the border.

@@ -14,7 +14,8 @@ Imports:
     ggtext,
     scales
 Suggests:
-    knitr
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
 License: MIT + file LICENSE
 Encoding: UTF-8

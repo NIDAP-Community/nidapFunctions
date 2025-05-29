@@ -61,8 +61,6 @@ create_postit(
 \item{truncate}{Whether to truncate lines that exceed \code{max_lines}.}
 
 \item{auto_scale}{Whether to auto-reduce font size if text overflows.}
-
-\item{text_angle}{Angle of the text.}
 }
 \value{
 A \code{ggplot} object with the formatted text.
