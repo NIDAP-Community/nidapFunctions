@@ -17,10 +17,10 @@ nidapGetFiles(data, ext, type = "r")
 File name(s) to read into code template or code transform
 }
 \description{
-This function returns specific file paths for an input dataset  
-      in transform input format containing either a single or multiple files.
+This function returns specific file paths for an input dataset
+in transform input format containing either a single or multiple files.
 }
 \details{
 This method will copy files to the compute node and returns
-       the original file names for reading into code workbook.
+the original file names for reading into code workbook.
 }

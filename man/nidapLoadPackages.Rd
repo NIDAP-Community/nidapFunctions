@@ -13,10 +13,10 @@ nidapLoadPackages(current.packages, suppress = TRUE)
 }
 \description{
 This function will load packages and reorder package priorities
-       while suppressing startup messages by default.
+while suppressing startup messages by default.
 }
 \details{
-This method provides a way to automatically (optionally) suppress 
-       package start up messages in NIDAP and removes all other unnecessary 
-       packages
+This method provides a way to automatically (optionally) suppress
+package start up messages in NIDAP and removes all other unnecessary
+packages
 }

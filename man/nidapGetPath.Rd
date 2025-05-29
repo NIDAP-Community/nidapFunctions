@@ -14,15 +14,15 @@ nidapGetPath(input, name, type = "r")
 \item{type}{data type, by default, 'r'.}
 }
 \value{
-file path from which to read in data. Note that the original file 
-   name will not be retained
+file path from which to read in data. Note that the original file
+name will not be retained
 }
 \description{
-This function returns the file path from a transform input 
-       dataset in NIDAP Code Workbook
+This function returns the file path from a transform input
+dataset in NIDAP Code Workbook
 }
 \details{
-This function will return a file path from a transform input dataset 
-       into a code template or code transform in the NIDAP instance of
-       Foundry Code Workbook.
+This function will return a file path from a transform input dataset
+into a code template or code transform in the NIDAP instance of
+Foundry Code Workbook.
 }
