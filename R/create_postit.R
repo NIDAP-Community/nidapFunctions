@@ -32,12 +32,12 @@
 #' @examples
 #' create_postit("This is an example post.")
 create_postit <- function(
-    text,
+    text = "Post-IT",
     text_color = "Black",
-    text_size = 80,
+    text_size = 200,
     text_fontface = "plain",
     text_fontfamily = "sans",
-    fill_color = "White",
+    fill_color = "yellow1",
     fill_alpha = 0.3,
     border_alpha = 1,
     border_width = 10,
