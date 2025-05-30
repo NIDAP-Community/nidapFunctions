@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_postit.R
 \name{create_postit}
 \alias{create_postit}
-\title{Create a stylized ggplot text post}
+\title{Create a styled text label as a ggplot object}
 \usage{
 create_postit(
   text = "Post-IT",
@@ -19,55 +19,61 @@ create_postit(
   h_pos = "center",
   v_pos = "middle",
   wrap = TRUE,
-  max_line_length = 40,
+  text_width = 40,
   max_lines = 5,
   truncate = TRUE,
-  auto_scale = TRUE
+  abbreviate_text = FALSE,
+  abbr_minlength = NULL,
+  plot = TRUE
 )
 }
 \arguments{
-\item{text}{The main text string.}
+\item{text}{Character string to display.}
 
-\item{text_color}{Named color from the paint palette.}
+\item{text_color}{Named color from internal palette.}
 
-\item{text_size}{Size of the text in points.}
+\item{text_size}{Numeric font size in points.}
 
-\item{text_fontface}{Font face for text (e.g., "plain", "bold").}
+\item{text_fontface}{Font face ("plain", "bold", etc.).}
 
-\item{text_fontfamily}{Font family for text.}
+\item{text_fontfamily}{Font family ("sans", "serif", etc.).}
 
-\item{fill_color}{Named color for the background box.}
+\item{fill_color}{Background fill color name from internal palette.}
 
-\item{fill_alpha}{Opacity for the fill background.}
+\item{fill_alpha}{Fill opacity (0 to 1).}
 
-\item{border_alpha}{Opacity for the border.}
+\item{border_alpha}{Border opacity (0 to 1).}
 
-\item{border_width}{Width of the border line.}
+\item{border_width}{Numeric border line width.}
 
-\item{custom_fill}{Optional custom hex code to override \code{fill_color}.}
+\item{custom_fill}{Optional hex code to override \code{fill_color}.}
 
-\item{custom_text_color}{Optional custom hex code to override \code{text_color}.}
+\item{custom_text_color}{Optional hex to override \code{text_color}.}
 
-\item{h_pos}{Horizontal alignment: one of "left", "center", "right".}
+\item{h_pos}{Horizontal alignment: "left", "center", or "right".}
 
-\item{v_pos}{Vertical alignment: one of "top", "middle", "bottom".}
+\item{v_pos}{Vertical alignment: "top", "middle", or "bottom".}
 
-\item{wrap}{Whether to wrap text.}
+\item{wrap}{Whether to wrap long text.}
 
-\item{max_line_length}{Maximum characters per line when wrapping.}
+\item{text_width}{Max characters per line when wrapping.}
 
-\item{max_lines}{Maximum number of lines before truncation.}
+\item{max_lines}{Max lines before truncation. If 0, returns an empty note.}
 
-\item{truncate}{Whether to truncate lines that exceed \code{max_lines}.}
+\item{truncate}{Truncate and add "..." if text exceeds \code{max_lines}.}
 
-\item{auto_scale}{Whether to auto-reduce font size if text overflows.}
+\item{abbreviate_text}{Abbreviate each word before rendering.}
+
+\item{abbr_minlength}{Minimum length per word in abbreviation.}
+
+\item{plot}{If TRUE, plot immediately. If FALSE, just return ggplot object.}
 }
 \value{
-A \code{ggplot} object with the formatted text.
+A \code{ggplot} object displaying the formatted text.
 }
 \description{
-Generates a styled plot with text using \code{ggplot2} and \code{ggtext::geom_textbox}.
-}
-\examples{
-create_postit("This is an example post.")
+Returns a \code{ggplot} object with styled text using \code{ggtext::geom_textbox}.
+Intended for labeling within NIDAP Code Workbooks—marking workflow stages,
+annotating nodes, or visually separating pipeline sections. Supports wrapping,
+truncation, abbreviation, font styling, and optional plotting.
 }
