@@ -15,7 +15,8 @@ Imports:
     scales
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -23,3 +24,4 @@ LazyData: true
 RoxygenNote: 7.3.2
 Language: en-US
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3
