@@ -52,6 +52,7 @@ test_that("Abbreviation without minlength defaults reasonably", {
 })
 
 test_that("create_postit generates expected plot", {
+  skip_if_not_installed("vdiffr")
   vdiffr::expect_doppelganger(
   title = "create_postit_plot",
   fig = function() {
