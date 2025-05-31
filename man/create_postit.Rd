@@ -19,8 +19,6 @@ create_postit(
   h_pos = "center",
   v_pos = "middle",
   wrap = TRUE,
-  text_width = 40,
-  max_lines = 5,
   truncate = TRUE,
   abbreviate_text = FALSE,
   abbr_minlength = NULL,
@@ -28,52 +26,55 @@ create_postit(
 )
 }
 \arguments{
-\item{text}{Character string to display.}
+\item{text}{Character string. The main message to display.}
 
-\item{text_color}{Named color from internal palette.}
+\item{text_color}{Named color from the internal paint palette for the text.}
 
-\item{text_size}{Numeric font size in points.}
+\item{text_size}{Numeric. Font size in points.}
 
-\item{text_fontface}{Font face ("plain", "bold", etc.).}
+\item{text_fontface}{Font face (e.g., "plain", "bold", "italic").}
 
-\item{text_fontfamily}{Font family ("sans", "serif", etc.).}
+\item{text_fontfamily}{Font family (e.g., "sans", "serif").}
 
-\item{fill_color}{Background fill color name from internal palette.}
+\item{fill_color}{Named background color from the paint palette.}
 
-\item{fill_alpha}{Fill opacity (0 to 1).}
+\item{fill_alpha}{Opacity of the background fill (0 to 1).}
 
-\item{border_alpha}{Border opacity (0 to 1).}
+\item{border_alpha}{Opacity of the border color (0 to 1).}
 
-\item{border_width}{Numeric border line width.}
+\item{border_width}{Numeric. Width of the border line.}
 
-\item{custom_fill}{Optional hex code to override \code{fill_color}.}
+\item{custom_fill}{Optional custom hex color code to override \code{fill_color}.}
 
-\item{custom_text_color}{Optional hex to override \code{text_color}.}
+\item{custom_text_color}{Optional hex color code to override \code{text_color}.}
 
-\item{h_pos}{Horizontal alignment: "left", "center", or "right".}
+\item{h_pos}{Horizontal alignment of the text: "left", "center", or "right".}
 
-\item{v_pos}{Vertical alignment: "top", "middle", or "bottom".}
+\item{v_pos}{Vertical alignment of the text: "top", "middle", or "bottom".}
 
-\item{wrap}{Whether to wrap long text.}
+\item{wrap}{Logical. Whether to wrap long text lines.}
 
-\item{text_width}{Max characters per line when wrapping.}
+\item{truncate}{Logical. Whether to truncate overflow text.}
 
-\item{max_lines}{Max lines before truncation. If 0, returns an empty note.}
+\item{abbreviate_text}{Logical. Whether to abbreviate individual words.}
 
-\item{truncate}{Truncate and add "..." if text exceeds \code{max_lines}.}
+\item{abbr_minlength}{Integer. Minimum abbreviation length.}
 
-\item{abbreviate_text}{Abbreviate each word before rendering.}
-
-\item{abbr_minlength}{Minimum length per word in abbreviation.}
-
-\item{plot}{If TRUE, plot immediately. If FALSE, just return ggplot object.}
+\item{plot}{Logical. Whether to display the plot (TRUE) or only return the
+ggplot object (FALSE).}
 }
 \value{
-A \code{ggplot} object displaying the formatted text.
+A \code{ggplot} object containing a stylized textbox with the specified
+text.
 }
 \description{
-Returns a \code{ggplot} object with styled text using \code{ggtext::geom_textbox}.
-Intended for labeling within NIDAP Code Workbooks—marking workflow stages,
-annotating nodes, or visually separating pipeline sections. Supports wrapping,
-truncation, abbreviation, font styling, and optional plotting.
+Returns a ggplot object that displays styled text using
+\code{ggtext::geom_textbox}. Intended for labeling nodes within NIDAP Code
+Workbooks, such as marking workflow stages, annotating data entry points, or
+visually segmenting sections in multi-step pipelines. The function allows
+customization of text content, font styling, colors, positioning, wrapping,
+abbreviation, truncation, and automatic adjustment based on the text area.
+}
+\examples{
+create_postit("Step 2: DEG Analysis", fill_color = "blue1")
 }

@@ -6,36 +6,48 @@
 \usage{
 process_postit_text(
   text,
+  width_npc = 1,
+  height_npc = 1,
+  text_size = 200,
   wrap = TRUE,
-  text_width = 40,
-  max_lines = 5,
   truncate = TRUE,
   abbreviate_text = FALSE,
-  abbr_minlength = NULL
+  abbr_minlength = NULL,
+  font_family = "sans",
+  font_face = "plain"
 )
 }
 \arguments{
 \item{text}{The input character string.}
 
-\item{wrap}{Logical. Whether to wrap the text to multiple lines.}
+\item{width_npc}{Width available for text (in npc units).}
 
-\item{text_width}{Integer. Maximum characters per line or per word.}
+\item{height_npc}{Height available for text (in npc units).}
 
-\item{max_lines}{Integer. Maximum number of lines. If 0, returns an empty string.}
+\item{text_size}{Font size in points.}
 
-\item{truncate}{Logical. Whether to truncate overflow and add an ellipsis.}
+\item{wrap}{Logical. Whether to wrap text into multiple lines.}
 
-\item{abbreviate_text}{Logical. If TRUE, each word is abbreviated before further processing.}
+\item{truncate}{Logical. Whether to truncate text if it overflows.}
 
-\item{abbr_minlength}{Integer. Minimum abbreviation length. If NULL, estimated from text_width.}
+\item{abbreviate_text}{Logical. If TRUE, applies abbreviation.}
+
+\item{abbr_minlength}{Integer or NULL. Minimum abbreviation length (defaults
+to dynamic).}
+
+\item{font_family}{Character. Font family used for text (affects average char
+width).}
+
+\item{font_face}{Character. Font face ("plain", "italic", etc.).}
 }
 \value{
-A processed character string suitable for rendering in a ggplot label.
+A processed character string suitable for rendering in a ggplot
+label.
 }
 \description{
-This function formats the input text string by applying optional abbreviation,
-wrapping, and truncation. If \code{wrap = FALSE} and any word exceeds the character
-limit (\code{text_width}), it is shortened and a trailing \code{"..."} is added if
-truncation is enabled and line limit conditions are met.
+Automatically computes how much text can fit inside the ggplot textbox based
+on text size and available space (npc units). It applies abbreviation,
+wrapping, and truncation as needed. Supports dynamic adjustment for font size
+and plot dimensions.
 }
 \keyword{internal}
