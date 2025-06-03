@@ -15,9 +15,9 @@ create_postit(
   text_color = "black",
   custom_fill = NULL,
   custom_text_color = NULL,
-  padding_width = 0.25,
-  padding_height = 0.25,
-  use_relative_padding = FALSE,
+  padding_width = 0.1,
+  padding_height = 0.1,
+  use_relative_padding = TRUE,
   line_spacing = 1.5,
   font_family = "",
   font_face = "plain"
@@ -71,7 +71,7 @@ padding, color themes, and typography.
 }
 \examples{
 # Simple yellow post-it
-create_postit("\u270D Post-IT")
+create_postit("Post-IT")
 
 # With custom colors and bold font
 create_postit(
