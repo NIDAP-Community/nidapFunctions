@@ -7,7 +7,7 @@
 #' @importFrom grid grobHeight grid.newpage pushViewport popViewport viewport
 #' @importFrom grid unit grid.rect grid.draw editGrob
 #' @importFrom ggplot2 ggplot geom_text aes theme theme_void ggtitle
-#' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip
+#' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip 
 #' @importFrom scales alpha
 #' @importFrom utils  head
 #' @keywords internal
