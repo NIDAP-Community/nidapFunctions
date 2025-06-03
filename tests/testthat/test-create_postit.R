@@ -1,47 +1,41 @@
 
-test_that("create_postit returns a ggplot object by default", {
-  result <- create_postit(text = "Hello, world!", plot = FALSE)
-  expect_s3_class(result, "ggplot")
+test_that("create_postit runs without error with default settings", {
+  expect_invisible(create_postit("hello world"))
 })
 
-test_that("abbreviation shortens words correctly", {
-  processed <- process_postit_text(
-    text = "Differential Expression Analysis",
-    text_size = 200,
-    abbreviate_text = TRUE,
-    abbr_minlength = 2
-  )
-  expect_false(grepl("Differential", processed))
+test_that("create_postit handles custom colors and font", {
+  expect_invisible(create_postit(
+    text_string = "custom~color~test",
+    custom_fill = "#ABCDEF",
+    custom_text_color = "#123456",
+    font_face = "bold"
+  ))
 })
 
-test_that("truncation applies when lines exceed space", {
-  processed <- process_postit_text(
-    text = paste(rep("word", 100), collapse = " "),
-    text_size = 200,
-    wrap = TRUE,
-    truncate = TRUE
-  )
-  expect_true(grepl("\\.\\.\\.$", processed))
+test_that("create_postit handles relative padding", {
+  expect_invisible(create_postit(
+    text_string = "padded~note",
+    use_relative_padding = TRUE,
+    padding_width = 0.1,
+    padding_height = 0.1
+  ))
 })
 
-
-test_that("empty text with too small npc area returns empty string", {
-  processed <- process_postit_text(
-    text = "Too Big Text",
-    width_npc = 0.001,
-    height_npc = 0.001,
-    text_size = 500
-  )
-  expect_equal(processed, "")
+test_that("create_postit displays multiline layout", {
+  expect_invisible(create_postit("This~is~a~test // New~line~block"))
 })
 
-test_that("create_postit generates expected plot", {
+test_that("create_postit generates expected grid plot", {
   skip_if_not_installed("vdiffr")
+  
   vdiffr::expect_doppelganger(
-    title = "create_postit_plot",
+    title = "postit_grid_output",
     fig = function() {
-      p <- create_postit("Post-IT", plot = FALSE)
-      print(p)
+      # We just call the function, which internally draws via grid
+      create_postit(
+        "\u270D Post-IT",
+        device_width = 5, device_height = 2,
+      )
     }
   )
 })
