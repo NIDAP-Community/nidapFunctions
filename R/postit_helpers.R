@@ -9,9 +9,11 @@
 #' @importFrom ggplot2 ggplot geom_text aes theme theme_void ggtitle
 #' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip
 #' @importFrom scales alpha
+#' @importFrom utils  head
 #' @keywords internal
 "_PACKAGE"
 
+utils::globalVariables(c("hex", "label_color", "name"))
 
 # ------------------------------------------------------------------
 # Color Utilities ----
