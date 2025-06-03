@@ -7,7 +7,7 @@
 #' @importFrom grid grobHeight grid.newpage pushViewport popViewport viewport
 #' @importFrom grid unit grid.rect grid.draw editGrob
 #' @importFrom ggplot2 ggplot geom_text aes theme theme_void ggtitle
-#' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip 
+#' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip
 #' @importFrom scales alpha
 #' @importFrom utils  head
 #' @keywords internal
@@ -78,8 +78,11 @@ resolve_color <- function(color, allow_any = FALSE) {
   }
   
   stop(
-    sprintf("'%s' is not a valid post-it palette color.\nValid options are: %s",
-            color, paste(names(postit_palette), collapse = ", "))
+    sprintf(
+      "'%s' is not a valid post-it palette color.\nValid options are: %s",
+      color,
+      paste(names(postit_palette), collapse = ", ")
+    )
   )
 }
 #' Display Named Post-it Color Palette
@@ -121,11 +124,14 @@ show_postit_palette <- function() {
   df$label_color <- ifelse(df$luminance < 0.5, "white", "black")
   
   ggplot2::ggplot(df, ggplot2::aes(x = col, y = row)) +
-    ggplot2::geom_tile(aes(fill = hex), color = "white", width = 0.9, height = 0.9) +
-    ggplot2::geom_text(
-      aes(label = paste0(name, "\n", hex), color = label_color),
-      size = 3
+    ggplot2::geom_tile(
+      aes(fill = hex),
+      color = "white",
+      width = 0.9,
+      height = 0.9
     ) +
+    ggplot2::geom_text(
+      aes(label = paste0(name, "\n", hex), color = label_color), size = 3) +
     ggplot2::scale_fill_identity() +
     ggplot2::scale_color_identity() +
     ggplot2::theme_void() +
@@ -208,7 +214,7 @@ layout_fits <- function(lines,
   if (length(lines) == 1) {
     total_height <- heights
   } else {
-    total_height <- 
+    total_height <-
       sum(heights) + (length(lines) - 1) * mean(heights) * (line_spacing - 1)
   }
   

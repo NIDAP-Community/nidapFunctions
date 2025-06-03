@@ -17,7 +17,8 @@
 #' @param text_color Character. Named color for the text. Ignored if
 #'   `custom_text_color` is provided.
 #' @param custom_fill_color,custom_border_color,custom_text_color Character.
-#'   Optional override colors (hex or R color names) that bypass the post-it palette.
+#'   Optional override colors (hex or R color names) that bypass the post-it
+#'   palette.
 #' @param padding_width,padding_height Numeric. Padding (in inches or relative)
 #'   around the text area.
 #' @param use_relative_padding Logical. Whether to treat padding as proportion
@@ -34,7 +35,7 @@
 #' @importFrom grid textGrob unit grobWidth grobHeight viewport pushViewport
 #'   popViewport grid.newpage grid.rect grid.draw editGrob gpar
 #' @importFrom scales alpha
-#'
+#' 
 #' @seealso [postit_palette()], [show_postit_palette()]
 #'
 #' @export
