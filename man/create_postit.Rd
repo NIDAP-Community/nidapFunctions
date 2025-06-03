@@ -2,79 +2,97 @@
 % Please edit documentation in R/create_postit.R
 \name{create_postit}
 \alias{create_postit}
-\title{Create a styled text label as a ggplot object}
+\title{Create a Post-it Style Graphic with Text}
 \usage{
 create_postit(
-  text = "Post-IT",
-  text_color = "Black",
-  text_size = 200,
-  text_fontface = "plain",
-  text_fontfamily = "sans",
+  text_string,
+  device_width = 12,
+  device_height = 7,
   fill_color = "yellow1",
   fill_alpha = 0.3,
+  border_color = "yellow3",
   border_alpha = 1,
-  border_width = 10,
+  text_color = "black",
   custom_fill = NULL,
   custom_text_color = NULL,
-  h_pos = "center",
-  v_pos = "middle",
-  wrap = TRUE,
-  truncate = TRUE,
-  abbreviate_text = FALSE,
-  abbr_minlength = NULL,
-  plot = TRUE
+  padding_width = 0.25,
+  padding_height = 0.25,
+  use_relative_padding = FALSE,
+  line_spacing = 1.5,
+  font_family = "",
+  font_face = "plain"
 )
 }
 \arguments{
-\item{text}{Character string. The main message to display.}
+\item{text_string}{Character. The text string to display. Use \code{~} to glue
+words and \verb{//} to separate blocks.}
 
-\item{text_color}{Named color from the internal paint palette for the text.}
+\item{device_width, device_height}{Numeric. Width and height in inches of the
+output device.}
 
-\item{text_size}{Numeric. Font size in points.}
+\item{fill_color}{Character. Named color (from \code{postit_palette}) for
+background fill. Ignored if \code{custom_fill} is provided.}
 
-\item{text_fontface}{Font face (e.g., "plain", "bold", "italic").}
+\item{fill_alpha}{Numeric between 0 and 1. Transparency of the fill color.}
 
-\item{text_fontfamily}{Font family (e.g., "sans", "serif").}
+\item{border_color}{Character. Named color for the border. Ignored if
+\code{custom_fill} is provided.}
 
-\item{fill_color}{Named background color from the paint palette.}
+\item{border_alpha}{Numeric between 0 and 1. Transparency of the border.}
 
-\item{fill_alpha}{Opacity of the background fill (0 to 1).}
+\item{text_color}{Character. Named color for the text. Ignored if
+\code{custom_text_color} is provided.}
 
-\item{border_alpha}{Opacity of the border color (0 to 1).}
+\item{custom_fill, custom_text_color}{Character. Optional override colors (hex
+or named).}
 
-\item{border_width}{Numeric. Width of the border line.}
+\item{padding_width, padding_height}{Numeric. Padding (in inches or relative)
+around the text area.}
 
-\item{custom_fill}{Optional custom hex color code to override \code{fill_color}.}
+\item{use_relative_padding}{Logical. Whether to treat padding as proportion
+of device size.}
 
-\item{custom_text_color}{Optional hex color code to override \code{text_color}.}
+\item{line_spacing}{Numeric. Line spacing multiplier.}
 
-\item{h_pos}{Horizontal alignment of the text: "left", "center", or "right".}
+\item{font_family}{Character. Font family (e.g., \code{"sans"}, \code{"mono"},
+\code{"Roboto"}).}
 
-\item{v_pos}{Vertical alignment of the text: "top", "middle", or "bottom".}
-
-\item{wrap}{Logical. Whether to wrap long text lines.}
-
-\item{truncate}{Logical. Whether to truncate overflow text.}
-
-\item{abbreviate_text}{Logical. Whether to abbreviate individual words.}
-
-\item{abbr_minlength}{Integer. Minimum abbreviation length.}
-
-\item{plot}{Logical. Whether to display the plot (TRUE) or only return the
-ggplot object (FALSE).}
+\item{font_face}{Character. Font face style. One of \code{"plain"}, \code{"bold"},
+\code{"italic"}, or \code{"bold.italic"}.}
 }
 \value{
-A \code{ggplot} object containing a stylized textbox with the specified
-text.
+Invisibly returns \code{NULL}. Produces a graphical output using \code{grid}
+graphics.
 }
 \description{
-Returns a ggplot object that displays styled text using
-\code{ggtext::geom_textbox}. Intended for labeling nodes within NIDAP Code
-Workbooks, such as marking workflow stages, annotating data entry points, or
-visually segmenting sections in multi-step pipelines. The function allows
-customization of text content, font styling, colors, positioning, wrapping,
-abbreviation, truncation, and automatic adjustment based on the text area.
+Generates a Post-it note graphic with wrapped and centered text. The function
+scales font size to fit within a specified area, applying configurable
+padding, color themes, and typography.
 }
 \examples{
-create_postit("Step 2: DEG Analysis", fill_color = "blue1")
+# Simple yellow post-it
+create_postit("\u270D Post-IT")
+
+# With custom colors and bold font
+create_postit(
+  text_string = "Analysis Workflow",
+  fill_color = "blue3",
+  border_color = "blue3",
+  text_color = "white",
+  font_face = "bold",
+  device_width = 7,
+  device_height = 6
+)
+
+# With relative padding
+create_postit(
+  text_string = "This~is~scalable",
+  use_relative_padding = TRUE,
+  padding_width = 0.1,
+  padding_height = 0.1
+)
+
+}
+\seealso{
+\link{postit_palette}, show_postit_palette()]
 }
