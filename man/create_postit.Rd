@@ -13,7 +13,8 @@ create_postit(
   border_color = "yellow3",
   border_alpha = 1,
   text_color = "black",
-  custom_fill = NULL,
+  custom_fill_color = NULL,
+  custom_border_color = NULL,
   custom_text_color = NULL,
   padding_width = 0.1,
   padding_height = 0.1,
@@ -31,20 +32,20 @@ words and \verb{//} to separate blocks.}
 output device.}
 
 \item{fill_color}{Character. Named color (from \code{postit_palette}) for
-background fill. Ignored if \code{custom_fill} is provided.}
+background fill. Ignored if \code{custom_fill_color} is provided.}
 
 \item{fill_alpha}{Numeric between 0 and 1. Transparency of the fill color.}
 
 \item{border_color}{Character. Named color for the border. Ignored if
-\code{custom_fill} is provided.}
+\code{custom_border_color} is provided.}
 
 \item{border_alpha}{Numeric between 0 and 1. Transparency of the border.}
 
 \item{text_color}{Character. Named color for the text. Ignored if
 \code{custom_text_color} is provided.}
 
-\item{custom_fill, custom_text_color}{Character. Optional override colors (hex
-or named).}
+\item{custom_fill_color, custom_border_color, custom_text_color}{Character.
+Optional override colors (hex or R color names) that bypass the post-it palette.}
 
 \item{padding_width, padding_height}{Numeric. Padding (in inches or relative)
 around the text area.}
@@ -69,30 +70,6 @@ Generates a Post-it note graphic with wrapped and centered text. The function
 scales font size to fit within a specified area, applying configurable
 padding, color themes, and typography.
 }
-\examples{
-# Simple yellow post-it
-create_postit("Post-IT")
-
-# With custom colors and bold font
-create_postit(
-  text_string = "Analysis Workflow",
-  fill_color = "blue3",
-  border_color = "blue3",
-  text_color = "white",
-  font_face = "bold",
-  device_width = 7,
-  device_height = 6
-)
-
-# With relative padding
-create_postit(
-  text_string = "This~is~scalable",
-  use_relative_padding = TRUE,
-  padding_width = 0.1,
-  padding_height = 0.1
-)
-
-}
 \seealso{
-\link{postit_palette}, show_postit_palette()]
+\code{\link[=postit_palette]{postit_palette()}}, \code{\link[=show_postit_palette]{show_postit_palette()}}
 }

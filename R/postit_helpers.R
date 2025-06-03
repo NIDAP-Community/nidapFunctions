@@ -66,15 +66,22 @@ postit_palette <- c(
 
 #' @noRd
 #' @keywords internal
-resolve_color <- function(color, fallback = "#000000") {
+resolve_color <- function(color, allow_any = FALSE) {
   color <- tolower(color)
-  if (!is.null(postit_palette[[color]])) {
+  
+  if (color %in% names(postit_palette)) {
     return(postit_palette[[color]])
-  } else {
+  }
+  
+  if (allow_any) {
     return(color)
   }
+  
+  stop(
+    sprintf("'%s' is not a valid post-it palette color.\nValid options are: %s",
+            color, paste(names(postit_palette), collapse = ", "))
+  )
 }
-
 #' Display Named Post-it Color Palette
 #'
 #' Visualizes all available named colors in the `postit_palette`, with labels and

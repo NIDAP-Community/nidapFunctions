@@ -9,15 +9,15 @@
 #' @param device_width,device_height Numeric. Width and height in inches of the
 #'   output device.
 #' @param fill_color Character. Named color (from `postit_palette`) for
-#'   background fill. Ignored if `custom_fill` is provided.
+#'   background fill. Ignored if `custom_fill_color` is provided.
 #' @param fill_alpha Numeric between 0 and 1. Transparency of the fill color.
 #' @param border_color Character. Named color for the border. Ignored if
-#'   `custom_fill` is provided.
+#'   `custom_border_color` is provided.
 #' @param border_alpha Numeric between 0 and 1. Transparency of the border.
 #' @param text_color Character. Named color for the text. Ignored if
 #'   `custom_text_color` is provided.
-#' @param custom_fill,custom_text_color Character. Optional override colors (hex
-#'   or named).
+#' @param custom_fill_color,custom_border_color,custom_text_color Character.
+#'   Optional override colors (hex or R color names) that bypass the post-it palette.
 #' @param padding_width,padding_height Numeric. Padding (in inches or relative)
 #'   around the text area.
 #' @param use_relative_padding Logical. Whether to treat padding as proportion
@@ -35,30 +35,7 @@
 #'   popViewport grid.newpage grid.rect grid.draw editGrob gpar
 #' @importFrom scales alpha
 #'
-#' @seealso [postit_palette], show_postit_palette()]
-#'
-#' @examples
-#' # Simple yellow post-it
-#' create_postit("Post-IT")
-#'
-#' # With custom colors and bold font
-#' create_postit(
-#'   text_string = "Analysis Workflow",
-#'   fill_color = "blue3",
-#'   border_color = "blue3",
-#'   text_color = "white",
-#'   font_face = "bold",
-#'   device_width = 7,
-#'   device_height = 6
-#' )
-#'
-#' # With relative padding
-#' create_postit(
-#'   text_string = "This~is~scalable",
-#'   use_relative_padding = TRUE,
-#'   padding_width = 0.1,
-#'   padding_height = 0.1
-#' )
+#' @seealso [postit_palette()], [show_postit_palette()]
 #'
 #' @export
 create_postit <- function(
@@ -70,7 +47,8 @@ create_postit <- function(
     border_color = "yellow3",
     border_alpha = 1,
     text_color = "black",
-    custom_fill = NULL,
+    custom_fill_color = NULL,
+    custom_border_color = NULL,
     custom_text_color = NULL,
     padding_width = 0.1,
     padding_height = 0.1,
@@ -80,13 +58,17 @@ create_postit <- function(
     font_face = "plain"
 ) {
   # --- Resolve Colors ---
-  fill_resolved <- if (!is.null(custom_fill)) {
-    custom_fill
+  fill_resolved <- if (!is.null(custom_fill_color)) {
+    custom_fill_color
   } else {
     resolve_color(fill_color)
   }
   
-  border_resolved <- resolve_color(border_color)
+  border_resolved <- if (!is.null(custom_border_color)) {
+    custom_border_color
+  } else {
+    resolve_color(border_color)
+  }
   
   text_resolved <- if (!is.null(custom_text_color)) {
     custom_text_color
