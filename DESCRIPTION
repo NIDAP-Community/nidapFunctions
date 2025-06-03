@@ -11,7 +11,6 @@ Description: Useful Tools for Developing in NIDAP Code Workbook.
 Depends: R (>= 4.1.3)
 Imports: 
     ggplot2,
-    ggtext,
     scales
 Suggests:
     knitr,

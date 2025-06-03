@@ -12,3 +12,4 @@ inst/doc
 /doc/
 /Meta/
 LICENSE.md
+tests/testthat/Rplots.pdf
