@@ -283,7 +283,8 @@ draw_background <- function(device_width,
                             fill_color,
                             fill_alpha,
                             border_color,
-                            border_alpha) {
+                            border_alpha,
+                            border_size = 1) {
   grid::grid.newpage()
   grid::pushViewport(grid::viewport(
     width = grid::unit(device_width, "inches"),
@@ -297,10 +298,12 @@ draw_background <- function(device_width,
     height = grid::unit(1, "npc"),
     gp = grid::gpar(
       fill = scales::alpha(fill_color, fill_alpha),
-      col  = scales::alpha(border_color, border_alpha)
+      col  = scales::alpha(border_color, border_alpha),
+      lwd  = border_size
     )
   )
 }
+
 
 #' @noRd
 #' @keywords internal

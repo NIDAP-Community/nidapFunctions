@@ -12,6 +12,7 @@ create_postit(
   fill_alpha = 0.3,
   border_color = "yellow3",
   border_alpha = 1,
+  border_size = 1,
   text_color = "black",
   custom_fill_color = NULL,
   custom_border_color = NULL,
@@ -21,7 +22,8 @@ create_postit(
   use_relative_padding = TRUE,
   line_spacing = 1.5,
   font_family = "",
-  font_face = "plain"
+  font_face = "plain",
+  output = c("plot", "object")
 )
 }
 \arguments{
@@ -40,6 +42,9 @@ background fill. Ignored if \code{custom_fill_color} is provided.}
 \code{custom_border_color} is provided.}
 
 \item{border_alpha}{Numeric between 0 and 1. Transparency of the border.}
+
+\item{border_size}{Numeric. Width of the border line in points. Use larger
+values for thicker borders. Defaults to 1.}
 
 \item{text_color}{Character. Named color for the text. Ignored if
 \code{custom_text_color} is provided.}
@@ -61,10 +66,17 @@ of device size.}
 
 \item{font_face}{Character. Font face style. One of \code{"plain"}, \code{"bold"},
 \code{"italic"}, or \code{"bold.italic"}.}
+
+\item{output}{Character. Determines how the post-it graphic is handled. Use
+\code{"plot"} (default) to render the post-it directly using grid graphics. Use
+\code{"object"} to return a patchwork-compatible wrapped grob object (without
+drawing), suitable for composition with other ggplot2 or grid-based plots.}
 }
 \value{
-Invisibly returns \code{NULL}. Produces a graphical output using \code{grid}
-graphics.
+If \code{output = "plot"}, the function invisibly returns \code{NULL} and draws
+the post-it note to the current graphics device. If \code{output = "object"}, a
+patchwork-compatible ggplot object (containing a grid grob) is returned and
+nothing is drawn.
 }
 \description{
 Generates a Post-it note graphic with wrapped and centered text. The function

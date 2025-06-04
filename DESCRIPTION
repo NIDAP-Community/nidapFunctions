@@ -1,27 +1,31 @@
-Package: nidapFunctions
 Type: Package
+Package: nidapFunctions
 Title: Tools for NIDAP Code Workbook Templates
 Version: 0.7.8
 Date: 2023-05-25
-Authors@R: person("Cam", "Maggie", email = "maggie.cam@nih.gov", role = c("cre","aut"))
+Authors@R: 
+    person("Cam", "Maggie", , "maggie.cam@nih.gov", role = c("cre", "aut"))
 Maintainer: Cam Maggie <maggie.cam@nih.gov>
+Description: Useful Tools for Developing in NIDAP Code Workbook.
+License: MIT + file LICENSE
 URL: https://github.com/NIDAP-Community/nidapFunctions
 BugReports: https://github.com/NIDAP-Community/nidapFunctions/issues
-Description: Useful Tools for Developing in NIDAP Code Workbook.
-Depends: R (>= 4.1.3)
+Depends: 
+    R (>= 4.1.3)
 Imports: 
     ggplot2,
+    patchwork,
     scales
 Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
     vdiffr
-VignetteBuilder: knitr
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.3.2
-Language: en-US
-Roxygen: list(markdown = TRUE)
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
