@@ -23,7 +23,8 @@ create_postit(
   line_spacing = 1.5,
   font_family = "",
   font_face = "plain",
-  output = c("plot", "object")
+  output = c("plot", "object"),
+  rstudio = FALSE
 )
 }
 \arguments{
@@ -71,6 +72,12 @@ of device size.}
 \code{"plot"} (default) to render the post-it directly using grid graphics. Use
 \code{"object"} to return a patchwork-compatible wrapped grob object (without
 drawing), suitable for composition with other ggplot2 or grid-based plots.}
+
+\item{rstudio}{Logical. If \code{TRUE}, attempts to close an open graphics device
+in RStudio to avoid overlapping or unintended plot rendering. This is
+mainly useful when using \code{output = "object"} in \code{create_postit()} inside
+RStudio, where the default device may cause display artifacts or layering
+issues. This issue does not appear on NIDAP.}
 }
 \value{
 If \code{output = "plot"}, the function invisibly returns \code{NULL} and draws

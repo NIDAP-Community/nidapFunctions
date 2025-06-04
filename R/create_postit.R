@@ -34,6 +34,11 @@
 #'   `"plot"` (default) to render the post-it directly using grid graphics. Use
 #'   `"object"` to return a patchwork-compatible wrapped grob object (without
 #'   drawing), suitable for composition with other ggplot2 or grid-based plots.
+#' @param rstudio Logical. If `TRUE`, attempts to close an open graphics device
+#'   in RStudio to avoid overlapping or unintended plot rendering. This is
+#'   mainly useful when using `output = "object"` in `create_postit()` inside
+#'   RStudio, where the default device may cause display artifacts or layering
+#'   issues. This issue does not appear on NIDAP.
 #'
 #' @return If `output = "plot"`, the function invisibly returns `NULL` and draws
 #'   the post-it note to the current graphics device. If `output = "object"`, a
@@ -67,7 +72,8 @@ create_postit <- function(
     line_spacing = 1.5,
     font_family = "",
     font_face = "plain",
-    output = c("plot", "object")) {
+    output = c("plot", "object"),
+    rstudio = FALSE) {
  
    output <- match.arg(output)
   
@@ -166,7 +172,9 @@ create_postit <- function(
    vp = outer_vp)
   
   if (output == "object") {
-    if (dev.cur() > 1) grDevices::dev.off()
+    if(rstudio) {
+      if (dev.cur() > 1) grDevices::dev.off()
+    }
     return(invisible(patchwork::wrap_elements(composed)))
   } else {
     grid.newpage()

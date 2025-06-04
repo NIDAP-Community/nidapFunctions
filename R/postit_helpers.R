@@ -3,13 +3,15 @@
 #' These functions support layout, coloring, sizing, and rendering of post-it
 #' notes using grid and ggplot2 graphics.
 #'
+#' @importFrom grDevices dev.cur
 #' @importFrom grid textGrob gpar convertWidth convertHeight grobWidth
 #' @importFrom grid grobHeight grid.newpage pushViewport popViewport viewport
 #' @importFrom grid unit grid.rect grid.draw editGrob
 #' @importFrom ggplot2 ggplot geom_text aes theme theme_void ggtitle
 #' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip
 #' @importFrom scales alpha
-#' @importFrom utils  head
+#' @importFrom utils  head combn
+#' 
 #' @keywords internal
 "_PACKAGE"
 
