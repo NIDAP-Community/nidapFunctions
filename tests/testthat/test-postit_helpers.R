@@ -28,6 +28,48 @@ test_that("find_best_layout returns a valid layout and font size", {
   expect_gt(result$fontsize, 0)
 })
 
+test_wrap_variants_preserves_order <- function() {
+  # Original ordered tokens
+  original <- c("Gene", "Set", "Enrichment", "Analysis", "Algorithm", "Overview")
+  
+  # Different notations with various hard breaks (//), glues (~), soft breaks (space)
+  texts <- c(
+    "Gene Set Enrichment Analysis Algorithm Overview",
+    "Gene~Set Enrichment Analysis Algorithm Overview",
+    "Gene Set~Enrichment Analysis Algorithm Overview",
+    "Gene Set Enrichment~Analysis Algorithm Overview",
+    "Gene Set Enrichment Analysis Algorithm~Overview",
+    "Gene Set//Enrichment Analysis Algorithm Overview",
+    "Gene Set Enrichment//Analysis Algorithm Overview",
+    "Gene~Set Enrichment~Analysis Algorithm Overview"
+  )
+  
+  for (txt in texts) {
+    parsed <- parse_text(txt)
+    layouts <- wrap_variants(parsed)
+    
+    for (i in seq_along(layouts)) {
+      layout <- layouts[[i]]
+      
+      # Collapse all layout lines into one flat string of tokens
+      tokens <- unlist(strsplit(paste(layout, collapse = " "), "\\s+"))
+      
+      # Remove any empty strings (in case of double spaces)
+      tokens <- tokens[tokens != ""]
+      
+      # Check that all tokens match the original words, in order
+      if (!all(tokens == original)) {
+        cat("Test FAILED for input:\n", txt, "\nLayout:\n")
+        print(layout)
+        stop("Token order mismatch.")
+      }
+    }
+  }
+  
+  cat("✅ All wrap_variants outputs preserved word order across tests.\n")
+}
+
+
 test_that("resolve_color returns correct hex for valid palette name", {
   expect_equal(resolve_color("red1"), "#F44E3B")
   expect_equal(resolve_color("Red1"), "#F44E3B")  # case-insensitive

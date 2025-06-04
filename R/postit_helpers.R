@@ -158,31 +158,50 @@ parse_text <- function(txt) {
 #' @noRd
 #' @keywords internal
 wrap_variants <- function(parsed) {
-  fixed_lines <- list()
-  free_words <- c()
-  
-  for (group in parsed) {
-    if (length(group) == 1) {
-      fixed_lines <- append(fixed_lines, list(group))
-    } else {
-      free_words <- c(free_words, group)
+  # Generate all contiguous groupings (compositions) preserving order
+  contiguous_splits <- function(words) {
+    n <- length(words)
+    if (n == 1) return(list(list(words)))
+    
+    result <- list()
+    for (k in 1:n) {
+      split_points <- combn(1:(n - 1), k - 1, simplify = FALSE)
+      for (splits in split_points) {
+        idx <- c(0, splits, n)
+        chunks <- mapply(
+          function(i, j) words[(i + 1):j],
+          idx[-length(idx)],
+          idx[-1],
+          SIMPLIFY = FALSE
+        )
+        result[[length(result) + 1]] <- chunks
+      }
     }
+    return(result)
   }
   
-  layouts <- list()
-  max_lines <- length(free_words)
+  # Get variants for each hard-broken block
+  per_block_variants <- lapply(parsed, function(block) {
+    if (length(block) == 1) {
+      list(block)
+    } else {
+      contiguous_splits(block)
+    }
+  })
   
-  if (max_lines == 0) {
-    layouts[[1]] <- sapply(fixed_lines, paste, collapse = " ")
-    return(layouts)
+  # Cartesian product of block variants across hard blocks
+  cartesian_product <- function(lists) {
+    if (length(lists) == 1) return(lists[[1]])
+    grid <- expand.grid(lists, stringsAsFactors = FALSE)
+    apply(grid, 1, function(row) unlist(row, recursive = FALSE), simplify = FALSE)
   }
   
-  for (k in 1:max_lines) {
-    chunks <- rep(1:k, length.out = max_lines)
-    wrapped <- tapply(free_words, chunks, paste, collapse = " ")
-    layout <- c(sapply(fixed_lines, paste, collapse = " "), unname(wrapped))
-    layouts[[length(layouts) + 1]] <- layout
-  }
+  layout_lists <- cartesian_product(per_block_variants)
+  
+  # Collapse lines to strings
+  layouts <- lapply(layout_lists, function(lines) {
+    sapply(lines, paste, collapse = " ")
+  })
   
   return(layouts)
 }

@@ -45,7 +45,8 @@ background fill. Ignored if \code{custom_fill_color} is provided.}
 \code{custom_text_color} is provided.}
 
 \item{custom_fill_color, custom_border_color, custom_text_color}{Character.
-Optional override colors (hex or R color names) that bypass the post-it palette.}
+Optional override colors (hex or R color names) that bypass the post-it
+palette.}
 
 \item{padding_width, padding_height}{Numeric. Padding (in inches or relative)
 around the text area.}
