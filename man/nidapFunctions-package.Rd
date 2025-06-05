@@ -6,7 +6,7 @@
 \alias{nidapFunctions-package}
 \title{Internal and Exported Utilities for Post-it Rendering}
 \description{
-These functions support layout, coloring, sizing, and rendering of post-it
+These functions support layout, coloring, sizing, and rendering of Post-it
 notes using grid and ggplot2 graphics.
 }
 \seealso{

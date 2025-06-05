@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_postit.R
 \name{create_postit}
 \alias{create_postit}
-\title{Create a Post-it Style Graphic with Text}
+\title{Create a Post-it Style Graphic with Optional Guides}
 \usage{
 create_postit(
   text_string,
@@ -20,76 +20,58 @@ create_postit(
   padding_width = 0.1,
   padding_height = 0.1,
   use_relative_padding = TRUE,
-  line_spacing = 1.5,
   font_family = "",
   font_face = "plain",
+  min_line_spacing = NULL,
+  max_line_spacing = NULL,
   output = c("plot", "object"),
-  rstudio = FALSE
+  rstudio = FALSE,
+  bg_clipped = TRUE,
+  debug_guides = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{text_string}{Character. The text string to display. Use \code{~} to glue
-words and \verb{//} to separate blocks.}
+\item{text_string}{Character. Input string for the note.}
 
-\item{device_width, device_height}{Numeric. Width and height in inches of the
-output device.}
+\item{device_width, }{device_height Numeric. Dimensions of the device in
+inches.}
 
-\item{fill_color}{Character. Named color (from \code{postit_palette}) for
-background fill. Ignored if \code{custom_fill_color} is provided.}
+\item{fill_color, }{text_color, border_color Character. Colors from palette or
+hex.}
 
-\item{fill_alpha}{Numeric between 0 and 1. Transparency of the fill color.}
+\item{fill_alpha, }{border_alpha Numeric. Transparency levels.}
 
-\item{border_color}{Character. Named color for the border. Ignored if
-\code{custom_border_color} is provided.}
+\item{border_size}{Numeric. Border line width.}
 
-\item{border_alpha}{Numeric between 0 and 1. Transparency of the border.}
+\item{custom_fill_color, }{custom_border_color, custom_text_color Character.
+Overrides.}
 
-\item{border_size}{Numeric. Width of the border line in points. Use larger
-values for thicker borders. Defaults to 1.}
+\item{padding_width, }{padding_height Numeric. Padding size.}
 
-\item{text_color}{Character. Named color for the text. Ignored if
-\code{custom_text_color} is provided.}
+\item{use_relative_padding}{Logical. Interpret padding as proportion of
+device size.}
 
-\item{custom_fill_color, custom_border_color, custom_text_color}{Character.
-Optional override colors (hex or R color names) that bypass the post-it
-palette.}
+\item{font_family, }{font_face Character. Font properties.}
 
-\item{padding_width, padding_height}{Numeric. Padding (in inches or relative)
-around the text area.}
+\item{min_line_spacing, }{max_line_spacing Numeric or NULL. Optional spacing
+constraints.}
 
-\item{use_relative_padding}{Logical. Whether to treat padding as proportion
-of device size.}
+\item{output}{Character. "plot" or "object".}
 
-\item{line_spacing}{Numeric. Line spacing multiplier.}
+\item{rstudio}{Logical. Whether to auto-close RStudio devices.}
 
-\item{font_family}{Character. Font family (e.g., \code{"sans"}, \code{"mono"},
-\code{"Roboto"}).}
+\item{bg_clipped}{Logical. Whether to clip the background to device.}
 
-\item{font_face}{Character. Font face style. One of \code{"plain"}, \code{"bold"},
-\code{"italic"}, or \code{"bold.italic"}.}
+\item{debug_guides}{Logical. Whether to draw guides for padding and
+alignment.}
 
-\item{output}{Character. Determines how the post-it graphic is handled. Use
-\code{"plot"} (default) to render the post-it directly using grid graphics. Use
-\code{"object"} to return a patchwork-compatible wrapped grob object (without
-drawing), suitable for composition with other ggplot2 or grid-based plots.}
-
-\item{rstudio}{Logical. If \code{TRUE}, attempts to close an open graphics device
-in RStudio to avoid overlapping or unintended plot rendering. This is
-mainly useful when using \code{output = "object"} in \code{create_postit()} inside
-RStudio, where the default device may cause display artifacts or layering
-issues. This issue does not appear on NIDAP.}
+\item{verbose}{Logical. Print font size and layout.}
 }
 \value{
-If \code{output = "plot"}, the function invisibly returns \code{NULL} and draws
-the post-it note to the current graphics device. If \code{output = "object"}, a
-patchwork-compatible ggplot object (containing a grid grob) is returned and
-nothing is drawn.
+Plot or patchwork object.
 }
 \description{
-Generates a Post-it note graphic with wrapped and centered text. The function
-scales font size to fit within a specified area, applying configurable
-padding, color themes, and typography.
-}
-\seealso{
-\code{\link[=postit_palette]{postit_palette()}}, \code{\link[=show_postit_palette]{show_postit_palette()}}
+Generates a Post-it note with centered text and optional visual guides
+showing padding boundaries.
 }
