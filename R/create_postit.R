@@ -1,31 +1,37 @@
-#' Create a Post-it Style Graphic with Optional Guides
+#' Generates a Post-it style graphic with optimized text layout and sizing
 #'
-#' Generates a Post-it note with centered text and optional visual guides
-#' showing padding boundaries.
+#' Automatically computes the best text layout and maximum font size to render 
+#' the input string within the specified dimensions. Text is parsed using soft 
+#' breaks (spaces), hard breaks (`//`), and glued words (`~`) to guide line 
+#' wrapping. The result is a centered, readable graphic with aligned and 
+#' balanced text lines that adapt to content and constraints.
 #'
 #' @param text_string Character. Input string for the note.
-#' @param device_width, device_height Numeric. Dimensions of the device in
-#'   inches.
-#' @param fill_color, text_color, border_color Character. Colors from palette or
-#'   hex.
-#' @param fill_alpha, border_alpha Numeric. Transparency levels.
-#' @param border_size Numeric. Border line width.
-#' @param custom_fill_color, custom_border_color, custom_text_color Character.
-#'   Overrides.
-#' @param padding_width, padding_height Numeric. Padding size.
-#' @param use_relative_padding Logical. Interpret padding as proportion of
-#'   device size.
-#' @param font_family, font_face Character. Font properties.
-#' @param min_line_spacing, max_line_spacing Numeric or NULL. Optional spacing
-#'   constraints.
-#' @param output Character. "plot" or "object".
-#' @param rstudio Logical. Whether to auto-close RStudio devices.
-#' @param bg_clipped Logical. Whether to clip the background to device.
-#' @param debug_guides Logical. Whether to draw guides for padding and
-#'   alignment.
-#' @param verbose Logical. Print font size and layout.
+#' @param device_width Numeric. Width of the device in inches.
+#' @param device_height Numeric. Height of the device in inches.
+#' @param fill_color Character. Fill color from palette or hex code.
+#' @param text_color Character. Text color from palette or hex code.
+#' @param border_color Character. Border color from palette or hex code.
+#' @param fill_alpha Numeric. Alpha transparency for the fill color.
+#' @param border_alpha Numeric. Alpha transparency for the border color.
+#' @param border_size Numeric. Border line width in points.
+#' @param custom_fill_color Character. Custom fill color (overrides palette).
+#' @param custom_border_color Character. Custom border color (overrides palette).
+#' @param custom_text_color Character. Custom text color (overrides palette).
+#' @param padding_width Numeric. Horizontal padding size (absolute or relative).
+#' @param padding_height Numeric. Vertical padding size (absolute or relative).
+#' @param use_relative_padding Logical. Whether padding is relative to device size.
+#' @param font_family Character. Font family for the text.
+#' @param font_face Character. Font face (e.g., "plain", "bold", "italic").
+#' @param min_line_spacing Numeric or NULL. Minimum spacing between lines.
+#' @param max_line_spacing Numeric or NULL. Maximum spacing between lines.
+#' @param output Character. Either `"plot"` or `"object"` (returns patchwork).
+#' @param rstudio Logical. If `TRUE`, closes RStudio graphics devices before rendering.
+#' @param bg_clipped Logical. If `TRUE`, background is clipped to the viewport.
+#' @param debug_guides Logical. If `TRUE`, shows guide lines for alignment and padding.
+#' @param verbose Logical. If `TRUE`, prints selected layout and font size to console.
 #'
-#' @return Plot or patchwork object.
+#' @return A grid drawing or patchwork object, depending on `output`.
 #' @export
 create_postit <- function(
     text_string,
