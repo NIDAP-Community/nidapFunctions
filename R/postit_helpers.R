@@ -82,6 +82,7 @@ postit_palette <- c(
 #' @noRd
 resolve_color <- function(color, allow_any = FALSE) {
   color <- tolower(color)
+  color <- sub("grey", "gray", color)
   if (color %in% names(postit_palette))
     return(postit_palette[[color]])
   if (allow_any)
