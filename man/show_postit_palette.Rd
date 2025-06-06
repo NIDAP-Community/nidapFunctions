@@ -12,3 +12,6 @@ A \code{ggplot2} plot showing the palette.
 \description{
 Generates a visual overview of all defined colors with labels.
 }
+\examples{
+show_postit_palette()
+}

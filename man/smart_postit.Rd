@@ -2,7 +2,7 @@
 % Please edit documentation in R/smart_postit.R
 \name{smart_postit}
 \alias{smart_postit}
-\title{Generates a Post-it style graphic with optimized text layout and sizing}
+\title{Generate a Post-IT style graphic with optimized text sizing and layout}
 \usage{
 smart_postit(
   text_string,
@@ -94,4 +94,19 @@ the input string within the specified dimensions. Text is parsed using soft
 breaks (spaces), hard breaks (\code{/}), and linked words (\code{~}) to guide line
 wrapping. The result is a centered, readable graphic with aligned and
 balanced text lines that adapt to content and constraints.
+}
+\examples{
+smart_postit(
+  text_string = "\u270D/Post-IT",
+  fill_color = "yellow1",
+  text_color = "black",
+  font_face = "plain",
+  device_width = 6,
+  device_height = 4,
+  rstudio = TRUE,
+  verbose = FALSE
+)
+}
+\seealso{
+\link{postit_palette}, \code{\link[=show_postit_palette]{show_postit_palette()}}
 }

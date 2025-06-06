@@ -1,4 +1,4 @@
-#' Generates a Post-it style graphic with optimized text layout and sizing
+#' Generate a Post-IT style graphic with optimized text sizing and layout
 #'
 #' Automatically computes the best text layout and maximum font size to render
 #' the input string within the specified dimensions. Text is parsed using soft
@@ -45,6 +45,20 @@
 #' @importFrom patchwork wrap_elements
 #' @importFrom scales alpha
 #' @export
+#' 
+#' @seealso [postit_palette], [show_postit_palette()]
+
+#' @examples
+#' smart_postit(
+#'   text_string = "\u270D/Post-IT",
+#'   fill_color = "yellow1",
+#'   text_color = "black",
+#'   font_face = "plain",
+#'   device_width = 6,
+#'   device_height = 4,
+#'   rstudio = TRUE,
+#'   verbose = FALSE
+#' )
 
 smart_postit <- function(
     text_string,

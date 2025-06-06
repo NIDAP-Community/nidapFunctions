@@ -29,6 +29,7 @@ utils::globalVariables(c("hex", "label_color", "name"))
 #'
 #' @format Named character vector of hex colors.
 #' @keywords internal
+#' @export
 postit_palette <- c(
   darkgray1 = "#4D4D4D",
   darkgray2 = "#333333",
@@ -100,6 +101,8 @@ resolve_color <- function(color, allow_any = FALSE) {
 #'
 #' @return A `ggplot2` plot showing the palette.
 #' @export
+#' @examples
+#' show_postit_palette()
 show_postit_palette <- function() {
   pal <- postit_palette
   n_rows <- 3
