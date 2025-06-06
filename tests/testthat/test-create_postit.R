@@ -1,8 +1,8 @@
-test_that("create_postit handles custom color overrides", {
+test_that("smart_postit handles custom color overrides", {
   grDevices::pdf(NULL)  # open invisible graphics device
   on.exit(grDevices::dev.off(), add = TRUE)
   expect_invisible(
-    create_postit(
+    smart_postit(
         text_string = "Color~override test",
         custom_fill_color = "#ABCDEF",
         custom_text_color = "#123456",
@@ -15,11 +15,11 @@ test_that("create_postit handles custom color overrides", {
     )
 })
 
-test_that("create_postit supports absolute padding mode", {
+test_that("smart_postit supports absolute padding mode", {
   grDevices::pdf(NULL)  # open invisible graphics device
   on.exit(grDevices::dev.off(), add = TRUE)
   expect_invisible(
-    create_postit(
+    smart_postit(
       text_string = "Absolute padding test",
       use_relative_padding = FALSE,
       padding_width = 1,
@@ -31,18 +31,18 @@ test_that("create_postit supports absolute padding mode", {
   )
 })
 
-test_that("create_postit returns patchwork object silently", {
+test_that("smart_postit returns patchwork object silently", {
   grDevices::pdf(NULL)  # open invisible graphics device
   on.exit(grDevices::dev.off(), add = TRUE)
-  obj <- create_postit(
+  obj <- smart_postit(
     "This is an~object", output = "object", rstudio = FALSE, verbose = FALSE)
   expect_s3_class(obj, "gg")
 })
-test_that("create_postit works with different font faces", {
+test_that("smart_postit works with different font faces", {
   grDevices::pdf(NULL)  # open invisible graphics device
   on.exit(grDevices::dev.off(), add = TRUE)
   expect_invisible(
-    create_postit(
+    smart_postit(
       text_string = "Font~style~test",
       font_family = "sans",
       font_face = "italic",
@@ -53,12 +53,12 @@ test_that("create_postit works with different font faces", {
   )
 })
 
-test_that("create_postit generates expected grid plot snapshot", {
+test_that("smart_postit generates expected grid plot snapshot", {
   skip_if_not_installed("vdiffr")
   vdiffr::expect_doppelganger(
     title = "postit_snapshot",
     fig = function() {
-      create_postit(
+      smart_postit(
         "\u270D~Post-IT",
         device_width = 5,
         device_height = 3,

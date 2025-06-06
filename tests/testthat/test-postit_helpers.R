@@ -1,5 +1,5 @@
-test_that("parse_text splits text on hard blocks and glue words", {
-  result <- parse_text("Post-IT~Note // label note")
+test_that("parse_text splits text on hard blocks and link words", {
+  result <- parse_text("Post-IT~Note / label note")
   expect_equal(result, list(c("Post-IT Note"), c("label", "note")))
 })
 
@@ -38,15 +38,15 @@ test_wrap_variants_preserves_order <- function() {
   # Original ordered tokens
   original <- c("Gene", "Set", "Enrichment", "Analysis", "Algorithm", "Overview")
   
-  # Different notations with hard breaks (//), glues (~), soft breaks (space)
+  # Different notations with hard breaks (/), link (~), soft breaks (space)
   texts <- c(
     "Gene Set Enrichment Analysis Algorithm Overview",
     "Gene~Set Enrichment Analysis Algorithm Overview",
     "Gene Set~Enrichment Analysis Algorithm Overview",
     "Gene Set Enrichment~Analysis Algorithm Overview",
     "Gene Set Enrichment Analysis Algorithm~Overview",
-    "Gene Set//Enrichment Analysis Algorithm Overview",
-    "Gene Set Enrichment//Analysis Algorithm Overview",
+    "Gene Set/Enrichment Analysis Algorithm Overview",
+    "Gene Set Enrichment/Analysis Algorithm Overview",
     "Gene~Set Enrichment~Analysis Algorithm Overview"
   )
   

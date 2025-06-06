@@ -2,7 +2,7 @@
 #'
 #' Automatically computes the best text layout and maximum font size to render
 #' the input string within the specified dimensions. Text is parsed using soft
-#' breaks (spaces), hard breaks (`//`), and glued words (`~`) to guide line
+#' breaks (spaces), hard breaks (`/`), and linked words (`~`) to guide line
 #' wrapping. The result is a centered, readable graphic with aligned and
 #' balanced text lines that adapt to content and constraints.
 #'
@@ -45,7 +45,8 @@
 #' @importFrom patchwork wrap_elements
 #' @importFrom scales alpha
 #' @export
-create_postit <- function(
+
+smart_postit <- function(
     text_string,
     device_width = 12,
     device_height = 7,
@@ -74,42 +75,18 @@ create_postit <- function(
   output <- match.arg(output)
   
   # --- Resolve Colors ---
-  fill_resolved <- if (!is.null(custom_fill_color)) {
-    custom_fill_color
-  } else {
-    resolve_color(fill_color)
-  }
-  
-  border_resolved <- if (!is.null(custom_border_color)) {
-    custom_border_color
-  } else {
-    resolve_color(border_color)
-  }
-  
-  text_resolved <- if (!is.null(custom_text_color)) {
-    custom_text_color
-  } else {
-    resolve_color(text_color)
-  }
+  fill_resolved   <- if (!is.null(custom_fill_color)) custom_fill_color else resolve_color(fill_color)
+  border_resolved <- if (!is.null(custom_border_color)) custom_border_color else resolve_color(border_color)
+  text_resolved   <- if (!is.null(custom_text_color)) custom_text_color else resolve_color(text_color)
   
   # --- Text Layout ---
-  parsed <- parse_text(text_string)
-  layouts <- wrap_variants(parsed)
+  parsed   <- parse_text(text_string)
+  layouts  <- wrap_variants(parsed)
   
   # --- Padding and Inner Box Dimensions ---
-  pad_w <- if (use_relative_padding) {
-    device_width * padding_width
-  } else {
-    padding_width
-  }
-  
-  pad_h <- if (use_relative_padding) {
-    device_height * padding_height
-  } else {
-    padding_height
-  }
-  
-  inner_width <- device_width - 2 * pad_w
+  pad_w <- if (use_relative_padding) device_width * padding_width else padding_width
+  pad_h <- if (use_relative_padding) device_height * padding_height else padding_height
+  inner_width  <- device_width - 2 * pad_w
   inner_height <- device_height - 2 * pad_h
   
   # --- Best Font/Layout ---
@@ -184,11 +161,7 @@ create_postit <- function(
   composed <- if (bg_clipped) {
     grid::grobTree(
       bg_grob,
-      if (!is.null(guide_grobs)) {
-        guide_grobs
-      } else {
-        NULL
-      },
+      if (!is.null(guide_grobs)) guide_grobs,
       grobs = do.call(grid::gList, text_grobs),
       vp = outer_vp
     )
@@ -196,11 +169,7 @@ create_postit <- function(
     grid::grobTree(
       bg_grob,
       grid::grobTree(
-        if (!is.null(guide_grobs)) {
-          guide_grobs
-        } else {
-          NULL
-        },
+        if (!is.null(guide_grobs)) guide_grobs,
         do.call(grid::gList, text_grobs),
         vp = outer_vp
       )
@@ -209,14 +178,10 @@ create_postit <- function(
   
   # --- Render or Return ---
   if (output == "object") {
-    if (rstudio && dev.cur() > 1) {
-      grDevices::dev.off()
-    }
+    if (rstudio && dev.cur() > 1) grDevices::dev.off()
     return(invisible(patchwork::wrap_elements(composed)))
   } else {
-    if (rstudio) {
-      grid.newpage()
-    }
+    if (rstudio) grid.newpage()
     pushViewport(outer_vp)
     grid.draw(composed)
     popViewport()
