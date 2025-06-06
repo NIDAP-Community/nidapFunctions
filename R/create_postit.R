@@ -1,9 +1,9 @@
 #' Generates a Post-it style graphic with optimized text layout and sizing
 #'
-#' Automatically computes the best text layout and maximum font size to render 
-#' the input string within the specified dimensions. Text is parsed using soft 
-#' breaks (spaces), hard breaks (`//`), and glued words (`~`) to guide line 
-#' wrapping. The result is a centered, readable graphic with aligned and 
+#' Automatically computes the best text layout and maximum font size to render
+#' the input string within the specified dimensions. Text is parsed using soft
+#' breaks (spaces), hard breaks (`//`), and glued words (`~`) to guide line
+#' wrapping. The result is a centered, readable graphic with aligned and
 #' balanced text lines that adapt to content and constraints.
 #'
 #' @param text_string Character. Input string for the note.
@@ -16,22 +16,34 @@
 #' @param border_alpha Numeric. Alpha transparency for the border color.
 #' @param border_size Numeric. Border line width in points.
 #' @param custom_fill_color Character. Custom fill color (overrides palette).
-#' @param custom_border_color Character. Custom border color (overrides palette).
+#' @param custom_border_color Character. Custom border color (overrides
+#'   palette).
 #' @param custom_text_color Character. Custom text color (overrides palette).
 #' @param padding_width Numeric. Horizontal padding size (absolute or relative).
 #' @param padding_height Numeric. Vertical padding size (absolute or relative).
-#' @param use_relative_padding Logical. Whether padding is relative to device size.
+#' @param use_relative_padding Logical. Whether padding is relative to device
+#'   size.
 #' @param font_family Character. Font family for the text.
 #' @param font_face Character. Font face (e.g., "plain", "bold", "italic").
 #' @param min_line_spacing Numeric or NULL. Minimum spacing between lines.
 #' @param max_line_spacing Numeric or NULL. Maximum spacing between lines.
 #' @param output Character. Either `"plot"` or `"object"` (returns patchwork).
-#' @param rstudio Logical. If `TRUE`, closes RStudio graphics devices before rendering.
+#' @param rstudio Logical. If `TRUE`, closes RStudio graphics devices before
+#'   rendering.
 #' @param bg_clipped Logical. If `TRUE`, background is clipped to the viewport.
-#' @param debug_guides Logical. If `TRUE`, shows guide lines for alignment and padding.
-#' @param verbose Logical. If `TRUE`, prints selected layout and font size to console.
+#' @param debug_guides Logical. If `TRUE`, shows guide lines for alignment and
+#'   padding.
+#' @param verbose Logical. If `TRUE`, prints selected layout and font size to
+#'   console.
 #'
 #' @return A grid drawing or patchwork object, depending on `output`.
+#'
+#' @importFrom grid unit viewport grobTree rectGrob linesGrob gpar textGrob
+#'   grobWidth grobHeight convertWidth convertHeight editGrob pushViewport
+#'   popViewport grid.draw grid.newpage gList
+#' @importFrom grDevices dev.off
+#' @importFrom patchwork wrap_elements
+#' @importFrom scales alpha
 #' @export
 create_postit <- function(
     text_string,
@@ -62,18 +74,42 @@ create_postit <- function(
   output <- match.arg(output)
   
   # --- Resolve Colors ---
-  fill_resolved   <- if (!is.null(custom_fill_color)) custom_fill_color else resolve_color(fill_color)
-  border_resolved <- if (!is.null(custom_border_color)) custom_border_color else resolve_color(border_color)
-  text_resolved   <- if (!is.null(custom_text_color)) custom_text_color else resolve_color(text_color)
+  fill_resolved <- if (!is.null(custom_fill_color)) {
+    custom_fill_color
+  } else {
+    resolve_color(fill_color)
+  }
+  
+  border_resolved <- if (!is.null(custom_border_color)) {
+    custom_border_color
+  } else {
+    resolve_color(border_color)
+  }
+  
+  text_resolved <- if (!is.null(custom_text_color)) {
+    custom_text_color
+  } else {
+    resolve_color(text_color)
+  }
   
   # --- Text Layout ---
-  parsed   <- parse_text(text_string)
-  layouts  <- wrap_variants(parsed)
+  parsed <- parse_text(text_string)
+  layouts <- wrap_variants(parsed)
   
   # --- Padding and Inner Box Dimensions ---
-  pad_w <- if (use_relative_padding) device_width * padding_width else padding_width
-  pad_h <- if (use_relative_padding) device_height * padding_height else padding_height
-  inner_width  <- device_width - 2 * pad_w
+  pad_w <- if (use_relative_padding) {
+    device_width * padding_width
+  } else {
+    padding_width
+  }
+  
+  pad_h <- if (use_relative_padding) {
+    device_height * padding_height
+  } else {
+    padding_height
+  }
+  
+  inner_width <- device_width - 2 * pad_w
   inner_height <- device_height - 2 * pad_h
   
   # --- Best Font/Layout ---
@@ -148,7 +184,11 @@ create_postit <- function(
   composed <- if (bg_clipped) {
     grid::grobTree(
       bg_grob,
-      if (!is.null(guide_grobs)) guide_grobs,
+      if (!is.null(guide_grobs)) {
+        guide_grobs
+      } else {
+        NULL
+      },
       grobs = do.call(grid::gList, text_grobs),
       vp = outer_vp
     )
@@ -156,7 +196,11 @@ create_postit <- function(
     grid::grobTree(
       bg_grob,
       grid::grobTree(
-        if (!is.null(guide_grobs)) guide_grobs,
+        if (!is.null(guide_grobs)) {
+          guide_grobs
+        } else {
+          NULL
+        },
         do.call(grid::gList, text_grobs),
         vp = outer_vp
       )
@@ -165,13 +209,17 @@ create_postit <- function(
   
   # --- Render or Return ---
   if (output == "object") {
-    if (rstudio && dev.cur() > 1) grDevices::dev.off()
+    if (rstudio && dev.cur() > 1) {
+      grDevices::dev.off()
+    }
     return(invisible(patchwork::wrap_elements(composed)))
   } else {
-    if (rstudio) grid.newpage()
-      pushViewport(outer_vp)
-      grid.draw(composed)
-      popViewport()
-      invisible(NULL)
+    if (rstudio) {
+      grid.newpage()
+    }
+    pushViewport(outer_vp)
+    grid.draw(composed)
+    popViewport()
+    invisible(NULL)
   }
 }

@@ -8,7 +8,8 @@
 #' @importFrom grid grobHeight grid.newpage pushViewport popViewport viewport
 #' @importFrom grid unit grid.rect grid.draw editGrob grobTree linesGrob gList
 #' @importFrom ggplot2 ggplot geom_text aes theme theme_void ggtitle
-#' @importFrom ggplot2 scale_fill_identity geom_tile coord_flip
+#' @importFrom ggplot2 scale_fill_identity scale_color_identity geom_tile
+#'   coord_flip
 #' @importFrom scales alpha
 #' @importFrom utils  head combn
 #'
@@ -26,8 +27,6 @@ utils::globalVariables(c("hex", "label_color", "name"))
 #'
 #' @format Named character vector of hex colors.
 #' @keywords internal
-"postit_palette"
-
 postit_palette <- c(
   darkgray1 = "#4D4D4D",
   darkgray2 = "#333333",
@@ -80,10 +79,12 @@ postit_palette <- c(
 #' @noRd
 resolve_color <- function(color, allow_any = FALSE) {
   color <- tolower(color)
-  if (color %in% names(postit_palette))
+  if (color %in% names(postit_palette)) {
     return(postit_palette[[color]])
-  if (allow_any)
+  }
+  if (allow_any) {
     return(color)
+  }
   stop(
     sprintf(
       "'%s' is not a valid post-it palette color.\nValid options are: %s",
@@ -130,7 +131,8 @@ show_postit_palette <- function() {
       width = 0.9,
       height = 0.9
     ) +
-    geom_text(aes(label = paste0(name, "\n", hex), color = label_color), size = 3) +
+    geom_text(
+      aes(label = paste0(name, "\n", hex), color = label_color), size = 3) +
     scale_fill_identity() +
     scale_color_identity() +
     theme_void() +
@@ -142,15 +144,6 @@ show_postit_palette <- function() {
 # Text Layout and Font Sizing ----
 # ------------------------------------------------------------------
 
-#' Parse a text string into layout-ready blocks
-#'
-#' Splits input using hard breaks (`//`), glues words on `~`, and soft breaks on
-#' spaces.
-#' 
-#' @param txt Character. Text to parse.
-#' @return List of parsed blocks.
-#' @keywords internal
-#' @noRd
 parse_text <- function(txt) {
   hard_blocks <- strsplit(txt, "//")[[1]]
   parsed <- lapply(hard_blocks, function(block) {
@@ -160,26 +153,20 @@ parse_text <- function(txt) {
   return(parsed)
 }
 
-#' Generate layout variants from parsed blocks
-#'
-#' Computes all line-breaking variants across parsed blocks.
-#'
-#' @param parsed List. Parsed text from `parse_text()`.
-#' @return List of character vectors representing line layouts.
-#' @keywords internal
-#' @noRd
 wrap_variants <- function(parsed) {
   contiguous_splits <- function(words) {
     n <- length(words)
-    if (n == 1)
+    if (n == 1) {
       return(list(list(words)))
+    }
     result <- list()
     for (k in 1:n) {
       split_points <- combn(1:(n - 1), k - 1, simplify = FALSE)
       for (splits in split_points) {
         idx <- c(0, splits, n)
-        chunks <- mapply(function(i, j)
-          words[(i + 1):j], idx[-length(idx)], idx[-1], SIMPLIFY = FALSE)
+        chunks <- mapply(function(i, j) {
+          words[(i + 1):j]
+        }, idx[-length(idx)], idx[-1], SIMPLIFY = FALSE)
         result[[length(result) + 1]] <- chunks
       }
     }
@@ -187,37 +174,30 @@ wrap_variants <- function(parsed) {
   }
   
   per_block_variants <- lapply(parsed, function(block) {
-    if (length(block) == 1)
+    if (length(block) == 1) {
       list(block)
-    else
+    } else {
       contiguous_splits(block)
+    }
   })
   
   cartesian_product <- function(lists) {
-    if (length(lists) == 1)
+    if (length(lists) == 1) {
       return(lists[[1]])
+    }
     grid <- expand.grid(lists, stringsAsFactors = FALSE)
-    apply(grid, 1, function(row)
-      unlist(row, recursive = FALSE), simplify = FALSE)
+    apply(grid, 1, function(row) {
+      unlist(row, recursive = FALSE)
+    }, simplify = FALSE)
   }
   
   layout_lists <- cartesian_product(per_block_variants)
-  layouts <- lapply(layout_lists, function(lines)
-    sapply(lines, paste, collapse = " "))
+  layouts <- lapply(layout_lists, function(lines) {
+    sapply(lines, paste, collapse = " ")
+  })
   return(layouts)
 }
 
-#' Check if a text layout fits in given dimensions
-#'
-#' Measures total height and maximum width of grobs and compares to constraints.
-#'
-#' @param lines Character vector. Lines of text.
-#' @param fontsize_pt Numeric. Font size in points.
-#' @param available_width, available_height Numeric. Dimensions in inches.
-#' @param line_spacing Numeric. Multiplier for line gap.
-#' @return Logical indicating if layout fits.
-#' @keywords internal
-#' @noRd
 layout_fits <- function(lines,
                         fontsize_pt,
                         available_width,
@@ -226,30 +206,25 @@ layout_fits <- function(lines,
   grobs <- lapply(lines, function(line) {
     textGrob(line, gp = gpar(fontsize = fontsize_pt))
   })
-  widths <- sapply(grobs, function(g)
-    convertWidth(grobWidth(g), "inches", valueOnly = TRUE))
-  heights <- sapply(grobs, function(g)
-    convertHeight(grobHeight(g), "inches", valueOnly = TRUE))
   
-  total_height <- if (length(lines) == 1)
-    heights
-  else
-    sum(heights) + (length(lines) - 1) * mean(heights) * (line_spacing - 1)
+  widths <- sapply(grobs, function(g) {
+    convertWidth(grobWidth(g), "inches", valueOnly = TRUE)
+  })
+  heights <- sapply(grobs, function(g) {
+    convertHeight(grobHeight(g), "inches", valueOnly = TRUE)
+  })
+  
+  if (length(lines) == 1) {
+    total_height <- heights
+  } else {
+    total_height <- 
+      sum(heights) + (length(lines) - 1) * mean(heights) * (line_spacing - 1)
+  }
+  
   return(max(widths) <= available_width &&
            total_height <= available_height)
 }
 
-#' Find the largest font and best layout that fits
-#'
-#' Iterates over layouts and finds the maximum font size that fits given
-#' constraints.
-#' 
-#' @param layouts List of character vectors. Output from `wrap_variants()`.
-#' @param width, height Numeric. Available space in inches.
-#' @param line_spacing Numeric. Spacing multiplier.
-#' @return A list with `layout` and `fontsize`.
-#' @keywords internal
-#' @noRd
 find_best_layout <- function(layouts, width, height, line_spacing = 1.5) {
   best_fontsize <- 0
   best_layout <- NULL
@@ -280,34 +255,23 @@ find_best_layout <- function(layouts, width, height, line_spacing = 1.5) {
 # Drawing Utilities ----
 # ------------------------------------------------------------------
 
-#' Create a background grob for Post-it
-#'
-#' Draws a filled rectangle with optional border and clipping.
-#'
-#' @param device_width, device_height Numeric. Inches.
-#' @param fill_color, fill_alpha Character/Number. Fill color and alpha.
-#' @param border_color, border_alpha Character/Number. Border color and alpha.
-#' @param border_size Numeric. Stroke width.
-#' @param bg_clipped Logical. Clip to viewport.
-#'
-#' @return A `grobTree` object.
-#' @keywords internal
-#' @noRd
-draw_postit_background <- function(device_width,
-                                   device_height,
-                                   fill_color,
-                                   fill_alpha,
-                                   border_color,
-                                   border_alpha,
-                                   border_size = 1,
-                                   bg_clipped = FALSE) {
-  vp <- if (bg_clipped) {
-    viewport(
+draw_postit_background <- function(
+    device_width,
+   device_height,
+   fill_color,
+   fill_alpha,
+   border_color,
+   border_alpha,
+   border_size = 1,
+   bg_clipped = FALSE) {
+  if (bg_clipped) {
+    vp <- viewport(
       width = unit(device_width, "inches"),
       height = unit(device_height, "inches")
     )
-  } else
-    NULL
+  } else {
+    vp <- NULL
+  }
   
   bg_grob <- rectGrob(
     x = 0.5,
@@ -323,30 +287,16 @@ draw_postit_background <- function(device_width,
   grobTree(bg_grob, vp = vp)
 }
 
-#' Draw vertically-aligned text grobs
-#'
-#' Positions text lines within a vertical area using spacing rules.
-#'
-#' @param lines Character vector of text lines.
-#' @param fontsize Numeric. Font size.
-#' @param text_color Character. Text color.
-#' @param font_family, font_face Character. Font settings.
-#' @param available_height_npc Numeric. Height as fraction of total viewport.
-#' @param offset_top_npc Numeric. Top margin offset in NPC.
-#' @param min_line_spacing, max_line_spacing Numeric or NULL. Spacing limits.
-#'
-#' @return A list of vertically-positioned grobs.
-#' @keywords internal
-#' @noRd
-draw_text_lines <- function(lines,
-                            fontsize,
-                            text_color,
-                            font_family = "",
-                            font_face = "plain",
-                            available_height_npc,
-                            offset_top_npc,
-                            min_line_spacing = NULL,
-                            max_line_spacing = NULL) {
+draw_text_lines <- function(
+    lines,
+    fontsize,
+    text_color,
+    font_family = "",
+    font_face = "plain",
+    available_height_npc,
+    offset_top_npc,
+    min_line_spacing = NULL,
+    max_line_spacing = NULL) {
   is_single_line <- length(lines) == 1
   
   grobs <- lapply(lines, function(line) {
@@ -361,8 +311,9 @@ draw_text_lines <- function(lines,
     )
   })
   
-  heights <- sapply(grobs, function(g)
-    convertHeight(grobHeight(g), "npc", valueOnly = TRUE))
+  heights <- sapply(grobs, function(g) {
+    convertHeight(grobHeight(g), "npc", valueOnly = TRUE)
+  })
   
   if (is_single_line) {
     y_positions <- 1 - offset_top_npc - available_height_npc / 2
@@ -373,22 +324,20 @@ draw_text_lines <- function(lines,
     vertical_space <- first_top - last_bottom
     gaps <- length(lines) - 1
     raw_gap <- (vertical_space - total_text_height) / max(gaps, 1)
-    if (!is.null(min_line_spacing))
+    if (!is.null(min_line_spacing)) {
       raw_gap <- max(raw_gap, min_line_spacing)
-    if (!is.null(max_line_spacing))
+    }
+    if (!is.null(max_line_spacing)) {
       raw_gap <- min(raw_gap, max_line_spacing)
+    }
     line_offsets <- cumsum(c(0, head(heights + raw_gap, -1)))
     top_y <- first_top - heights[1] / 2
     y_positions <- top_y - line_offsets
   }
   
-  positioned <- mapply(
-    function(g, y)
-      editGrob(g, y = unit(y, "npc"), just = "center"),
-    grobs,
-    y_positions,
-    SIMPLIFY = FALSE
-  )
+  positioned <- mapply(function(g, y) {
+    editGrob(g, y = unit(y, "npc"), just = "center")
+  }, grobs, y_positions, SIMPLIFY = FALSE)
   
   return(positioned)
 }

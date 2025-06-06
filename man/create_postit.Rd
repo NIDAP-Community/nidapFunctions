@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_postit.R
 \name{create_postit}
 \alias{create_postit}
-\title{Create a Post-it Style Graphic with Optional Guides}
+\title{Generates a Post-it style graphic with optimized text layout and sizing}
 \usage{
 create_postit(
   text_string,
@@ -34,44 +34,64 @@ create_postit(
 \arguments{
 \item{text_string}{Character. Input string for the note.}
 
-\item{device_width, }{device_height Numeric. Dimensions of the device in
-inches.}
+\item{device_width}{Numeric. Width of the device in inches.}
 
-\item{fill_color, }{text_color, border_color Character. Colors from palette or
-hex.}
+\item{device_height}{Numeric. Height of the device in inches.}
 
-\item{fill_alpha, }{border_alpha Numeric. Transparency levels.}
+\item{fill_color}{Character. Fill color from palette or hex code.}
 
-\item{border_size}{Numeric. Border line width.}
+\item{fill_alpha}{Numeric. Alpha transparency for the fill color.}
 
-\item{custom_fill_color, }{custom_border_color, custom_text_color Character.
-Overrides.}
+\item{border_color}{Character. Border color from palette or hex code.}
 
-\item{padding_width, }{padding_height Numeric. Padding size.}
+\item{border_alpha}{Numeric. Alpha transparency for the border color.}
 
-\item{use_relative_padding}{Logical. Interpret padding as proportion of
-device size.}
+\item{border_size}{Numeric. Border line width in points.}
 
-\item{font_family, }{font_face Character. Font properties.}
+\item{text_color}{Character. Text color from palette or hex code.}
 
-\item{min_line_spacing, }{max_line_spacing Numeric or NULL. Optional spacing
-constraints.}
+\item{custom_fill_color}{Character. Custom fill color (overrides palette).}
 
-\item{output}{Character. "plot" or "object".}
+\item{custom_border_color}{Character. Custom border color (overrides
+palette).}
 
-\item{rstudio}{Logical. Whether to auto-close RStudio devices.}
+\item{custom_text_color}{Character. Custom text color (overrides palette).}
 
-\item{bg_clipped}{Logical. Whether to clip the background to device.}
+\item{padding_width}{Numeric. Horizontal padding size (absolute or relative).}
 
-\item{debug_guides}{Logical. Whether to draw guides for padding and
-alignment.}
+\item{padding_height}{Numeric. Vertical padding size (absolute or relative).}
 
-\item{verbose}{Logical. Print font size and layout.}
+\item{use_relative_padding}{Logical. Whether padding is relative to device
+size.}
+
+\item{font_family}{Character. Font family for the text.}
+
+\item{font_face}{Character. Font face (e.g., "plain", "bold", "italic").}
+
+\item{min_line_spacing}{Numeric or NULL. Minimum spacing between lines.}
+
+\item{max_line_spacing}{Numeric or NULL. Maximum spacing between lines.}
+
+\item{output}{Character. Either \code{"plot"} or \code{"object"} (returns patchwork).}
+
+\item{rstudio}{Logical. If \code{TRUE}, closes RStudio graphics devices before
+rendering.}
+
+\item{bg_clipped}{Logical. If \code{TRUE}, background is clipped to the viewport.}
+
+\item{debug_guides}{Logical. If \code{TRUE}, shows guide lines for alignment and
+padding.}
+
+\item{verbose}{Logical. If \code{TRUE}, prints selected layout and font size to
+console.}
 }
 \value{
-Plot or patchwork object.
+A grid drawing or patchwork object, depending on \code{output}.
 }
 \description{
-Generates a Post-it note with centered text and optional visual guides
-showing padding boundaries.
+Automatically computes the best text layout and maximum font size to render
+the input string within the specified dimensions. Text is parsed using soft
+breaks (spaces), hard breaks (\verb{//}), and glued words (\code{~}) to guide line
+wrapping. The result is a centered, readable graphic with aligned and
+balanced text lines that adapt to content and constraints.
 }
