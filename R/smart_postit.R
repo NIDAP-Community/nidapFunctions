@@ -51,12 +51,16 @@
 #' @examples
 #' smart_postit(
 #'   text_string = "\u270D/Post-IT",
-#'   fill_color = "yellow1",
-#'   text_color = "black",
+#'   fill_color = "grey1",
+#'   custom_border_color = "midnightblue",
+#'   custom_text_color = "midnightblue",
 #'   font_face = "plain",
 #'   device_width = 6,
 #'   device_height = 4,
-#'   rstudio = TRUE,
+#'   padding_height = 0.1,
+#'   padding_width = 0,
+#'   use_relative_padding = TRUE,
+#'   new_page = TRUE,
 #'   verbose = FALSE
 #' )
 
