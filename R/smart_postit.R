@@ -81,7 +81,7 @@ smart_postit <- function(
     min_line_spacing = NULL,
     max_line_spacing = NULL,
     output = c("plot", "object"),
-    rstudio = FALSE,
+    new_page = FALSE,
     bg_clipped = TRUE,
     debug_guides = FALSE,
     verbose = TRUE
@@ -192,10 +192,10 @@ smart_postit <- function(
   
   # --- Render or Return ---
   if (output == "object") {
-    if (rstudio && dev.cur() > 1) grDevices::dev.off()
+    if (new_page && dev.cur() > 1) grDevices::dev.off()
     return(invisible(patchwork::wrap_elements(composed)))
   } else {
-    if (rstudio) grid.newpage()
+    if (new_page) grid.newpage()
     pushViewport(outer_vp)
     grid.draw(composed)
     popViewport()
