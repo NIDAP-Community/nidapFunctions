@@ -28,7 +28,7 @@
 #' @param min_line_spacing Numeric or NULL. Minimum spacing between lines.
 #' @param max_line_spacing Numeric or NULL. Maximum spacing between lines.
 #' @param output Character. Either `"plot"` or `"object"` (returns patchwork).
-#' @param rstudio Logical. If `TRUE`, closes RStudio graphics devices before
+#' @param manage_device Logical. If `TRUE`, closes graphics devices before
 #'   rendering.
 #' @param bg_clipped Logical. If `TRUE`, background is clipped to the viewport.
 #' @param debug_guides Logical. If `TRUE`, shows guide lines for alignment and
@@ -50,7 +50,7 @@
 
 #' @examples
 #' smart_postit(
-#'   text_string = "\u270D/Post-IT",
+#'   text_string = "Post-IT",
 #'   fill_color = "grey1",
 #'   custom_border_color = "midnightblue",
 #'   custom_text_color = "midnightblue",
@@ -60,7 +60,7 @@
 #'   padding_height = 0.1,
 #'   padding_width = 0,
 #'   use_relative_padding = TRUE,
-#'   new_page = TRUE,
+#'   manage_device = TRUE,
 #'   verbose = FALSE
 #' )
 
@@ -85,7 +85,7 @@ smart_postit <- function(
     min_line_spacing = NULL,
     max_line_spacing = NULL,
     output = c("plot", "object"),
-    new_page = FALSE,
+    manage_device = FALSE,
     bg_clipped = TRUE,
     debug_guides = FALSE,
     verbose = TRUE
@@ -196,10 +196,10 @@ smart_postit <- function(
   
   # --- Render or Return ---
   if (output == "object") {
-    if (new_page && dev.cur() > 1) grDevices::dev.off()
+    if (manage_device && dev.cur() > 1) grDevices::dev.off()
     return(invisible(patchwork::wrap_elements(composed)))
   } else {
-    if (new_page) grid.newpage()
+    if (manage_device) grid.newpage()
     pushViewport(outer_vp)
     grid.draw(composed)
     popViewport()

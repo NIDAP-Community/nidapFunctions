@@ -25,7 +25,7 @@ smart_postit(
   min_line_spacing = NULL,
   max_line_spacing = NULL,
   output = c("plot", "object"),
-  new_page = FALSE,
+  manage_device = FALSE,
   bg_clipped = TRUE,
   debug_guides = FALSE,
   verbose = TRUE
@@ -74,6 +74,9 @@ size.}
 
 \item{output}{Character. Either \code{"plot"} or \code{"object"} (returns patchwork).}
 
+\item{manage_device}{Logical. If \code{TRUE}, closes graphics devices before
+rendering.}
+
 \item{bg_clipped}{Logical. If \code{TRUE}, background is clipped to the viewport.}
 
 \item{debug_guides}{Logical. If \code{TRUE}, shows guide lines for alignment and
@@ -81,9 +84,6 @@ padding.}
 
 \item{verbose}{Logical. If \code{TRUE}, prints selected layout and font size to
 console.}
-
-\item{rstudio}{Logical. If \code{TRUE}, closes RStudio graphics devices before
-rendering.}
 }
 \value{
 A grid drawing or patchwork object, depending on \code{output}.
@@ -97,7 +97,7 @@ balanced text lines that adapt to content and constraints.
 }
 \examples{
 smart_postit(
-  text_string = "\u270D/Post-IT",
+  text_string = "Post-IT",
   fill_color = "grey1",
   custom_border_color = "midnightblue",
   custom_text_color = "midnightblue",
@@ -107,7 +107,7 @@ smart_postit(
   padding_height = 0.1,
   padding_width = 0,
   use_relative_padding = TRUE,
-  new_page = TRUE,
+  manage_device = TRUE,
   verbose = FALSE
 )
 }
