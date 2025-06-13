@@ -7,7 +7,7 @@
 #'        package start up messages in NIDAP and removes all other unnecessary 
 #'        packages
 #'
-#' @param current.package Vector of packages that are being used in the template
+#' @param current.packages Vector of packages that are being used in the template
 #' @param suppress Boolean to suppress messages.  By default set to TRUE
 #' 
 #' @export 
