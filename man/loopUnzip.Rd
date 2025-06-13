@@ -16,6 +16,6 @@ Local file path for unzipped data file(s)
 This function unzips specific file(s) in a file path
 }
 \details{
-This method will return unzipped file(s) for reading into a code 
-     workbook template/transform.
+This method will return unzipped file(s) for reading into a code
+workbook template/transform.
 }

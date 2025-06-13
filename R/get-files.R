@@ -34,7 +34,7 @@ nidapGetPath <- function(input,
 #' @details This method will copy files to the compute node and returns
 #'        the original file names for reading into code workbook. 
 #'
-#' @param dataset Dataset to import, usually in transform input format 
+#' @param data Dataset to import, usually in transform input format 
 #' @param ext File extension. For instance, "xlsx", "csv", "'txt, "rds"
 #' @param type Data type, by default, 'r'
 #' 

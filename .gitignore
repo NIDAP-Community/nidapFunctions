@@ -4,6 +4,12 @@
 .Ruserdata
 NIDAP_Functions.Rproj
 .renv/
+renv/
 
 
 
+inst/doc
+/doc/
+/Meta/
+LICENSE.md
+tests/testthat/Rplots.pdf
