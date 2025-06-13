@@ -7,11 +7,11 @@
 nidapGetFiles(data, ext, type = "r")
 }
 \arguments{
+\item{data}{Dataset to import, usually in transform input format}
+
 \item{ext}{File extension. For instance, "xlsx", "csv", "'txt, "rds"}
 
 \item{type}{Data type, by default, 'r'}
-
-\item{dataset}{Dataset to import, usually in transform input format}
 }
 \value{
 File name(s) to read into code template or code transform

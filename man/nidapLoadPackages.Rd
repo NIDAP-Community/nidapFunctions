@@ -7,9 +7,9 @@
 nidapLoadPackages(current.packages, suppress = TRUE)
 }
 \arguments{
-\item{suppress}{Boolean to suppress messages.  By default set to TRUE}
+\item{current.packages}{Vector of packages that are being used in the template}
 
-\item{current.package}{Vector of packages that are being used in the template}
+\item{suppress}{Boolean to suppress messages.  By default set to TRUE}
 }
 \description{
 This function will load packages and reorder package priorities
