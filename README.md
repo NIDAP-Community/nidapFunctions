@@ -9,3 +9,15 @@ API utilities for Palantir Foundry — enabling file access from S3 buckets and 
 Environment management utilities — unloading previously loaded packages and loading only those required for the current function, thereby resetting and standardizing the package order.
 
 Post-it note navigation tools — breadcrumb-style GUI elements that guide users through specific steps of their workflow, helping to maintain orientation and context.
+
+Installation
+You can install the package directly from the GitHub source tarball:
+
+install.packages(
+  "https://github.com/NIDAP-Community/nidapFunctions/raw/main/nidapFunctions_0.7.8.tar.gz",
+  repos = NULL,
+  type = "source"
+)
+
+Usage: 
+library(nidapFunctions)
