@@ -2,7 +2,7 @@
 
 This package contains all NIDAP-specific functions built for Palantir Foundry Code Workbook and manages their dependencies in a controlled way. It ensures that any previously loaded packages are unloaded, then loads only the libraries required for the current function. This prevents conflicts from package priority settings and maintains a clean, consistent environment for running analyses.
 
-##Functions include:
+## Functions include:
 
 **API utilities for Palantir Foundry** — enabling file access from S3 buckets and pulling data directly into an existing compute node.
 
