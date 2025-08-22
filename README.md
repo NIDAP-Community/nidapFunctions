@@ -10,7 +10,7 @@ This package contains all NIDAP-specific functions built for Palantir Foundry Co
 
 **Post-it note navigation tools** — breadcrumb-style GUI elements that guide users through specific steps of their workflow, helping to maintain orientation and context.
 
-###Installation
+### Installation
 You can install the package directly from the GitHub source tarball:
 
 install.packages(
@@ -19,5 +19,5 @@ install.packages(
   type = "source"
 )
 
-###Usage: 
+### Usage: 
 library(nidapFunctions)
